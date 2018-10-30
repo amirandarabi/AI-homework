@@ -128,8 +128,34 @@ def depthFirstSearch(problem):
     open = util.Stack()
     close = util.Stack()
     patch = []
-    
+    # getStartState
+    startState = problem.getStartState()
+    # initial a flage that show we arrive to goal or not
+    flage = False
+    while flage is False:
+        if open.isEmpty() and close.isEmpty():
+            open.push([startState, "root", 0])
+        cs = open.pop()
+        print cs[0]
+        if problem.isGoalState(cs[0]):
+            patch.append(cs[1])
+            flage = True
+        else:
+            close.push(cs)
+            children = problem.getSuccessors(cs[0])
+            for child in children:
+                if child[1] == "West" and cs[1] == "East":
+                    continue
+                if child[1] == "East" and cs[1] == "West":
+                    continue
+                if child[1] == "South" and cs[1] == "North":
+                    continue
+                if child[1] == "North" and cs[1] == "South":
+                    continue
+                open.push(child)
 
+
+    return patch
     util.raiseNotDefined()
 
 
