@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -85,12 +85,43 @@ def depthFirstSearch(problem):
     print "Start:", problem.getStartState()
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
+    print (problem.getPacmanState)
+
     """
     "*** YOUR CODE HERE ***"
     print "Start:", problem.getStartState()
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
+    startstate = problem.getStartState()
+    openlist = util.Stack()
+    openlist.push(problem.getStartState())
+    # n = openlist.pop()
+    # for i in problem.getSuccessors(n):
+    #     openlist.push(i[0])
+    # n = openlist.pop()
+    # print n
+    # s = problem.getSuccessors(n)
+    # print s
+    closelist = util.Stack()
+    x = 1500
+    # while openlist.isEmpty() is not True:
+    while x is not 0:
+        print "hear"
+        x -= 1
+        n = openlist.pop()
+        if problem.isGoalState(n):
+            return ["West"]
+        else:
+            for i in problem.getSuccessors(n):
+                openlist.push(i[0])
+                # return [i[1]]
+
+    # print openlist.pop()
+    # print openlist.pop()
+    # print "pacman State is:", problem.isWin(problem.getStartState())
+    return ["West"]
     util.raiseNotDefined()
+
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
