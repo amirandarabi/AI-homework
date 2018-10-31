@@ -160,13 +160,16 @@ def depthFirstSearch(problem):
             close.append(cs)
             children = problem.getSuccessors(cs[0])
             for child in children:
-                if child[1] == "West" and cs[1] == "East":
+                if util.manhattanDistance(child[0], cs[0]) == 0:
                     continue
-                if child[1] == "East" and cs[1] == "West":
-                    continue
-                if child[1] == "South" and cs[1] == "North":
-                    continue
-                if child[1] == "North" and cs[1] == "South":
+
+                # if child[1] == "West" and cs[1] == "East":
+                #     continue
+                # if child[1] == "East" and cs[1] == "West":
+                #     continue
+                # if child[1] == "South" and cs[1] == "North":
+                #     continue
+                # if child[1] == "North" and cs[1] == "South":
                     continue
                 print close
                 if isdead(child, close):
