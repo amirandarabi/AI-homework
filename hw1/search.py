@@ -72,6 +72,13 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
+
+def isdead(child ,close):
+    while len(close) is not 0:
+        if child[0] == close.pop()[0]:
+                return True
+    return False
+
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
@@ -126,22 +133,31 @@ def depthFirstSearch(problem):
     # return ["West"]
     # initial freng, close lists and the patch of goal
     open = util.Stack()
-    close = util.Stack()
+    close = []
     patch = []
     # getStartState
     startState = problem.getStartState()
     # initial a flage that show we arrive to goal or not
-    flage = False
-    while flage is False:
-        if open.isEmpty() and close.isEmpty():
+    flag = False
+    i = 10
+    while flag is False and i is not 0:
+        i -= 1
+        if open.isEmpty() and len(close) is 0:
             open.push([startState, "root", 0])
+            patch.append([startState, "root", 0])
         cs = open.pop()
-        print cs[0]
+        lp = patch.pop()
+        if util.manhattanDistance(lp[0], cs[0]) == 1:
+            patch.append(lp)
+            patch.append(cs)
+        else:
+            patch.append(cs)
+        print patch
         if problem.isGoalState(cs[0]):
             patch.append(cs[1])
-            flage = True
+            flag = True
         else:
-            close.push(cs)
+            close.append(cs)
             children = problem.getSuccessors(cs[0])
             for child in children:
                 if child[1] == "West" and cs[1] == "East":
@@ -152,10 +168,30 @@ def depthFirstSearch(problem):
                     continue
                 if child[1] == "North" and cs[1] == "South":
                     continue
+                print close
+                if isdead(child, close):
+                    continue
+                print "close", close
                 open.push(child)
 
 
-    return patch
+    # patch = ["South", "South", "West", "West", "West", "West", "South", "South",
+    #  "East", "East", "East", "East", "South", "South", "West", "West", "West",
+    #   "West", "South", "South", "East", "East", "East", "East", "South", "South",
+    #    "West", "West", "West", "West", "South", "South", "East", "East", "East",
+    #    "East", "South", "South", "West", "West", "West","South","South", "South"]
+    # def checkfamily()
+    patch2 = []
+    for p in patch:
+        patch2.append(p[1])
+    #     patch.remove(p)
+    #     while p[0][0]:
+    #         pass
+    patch2.remove(patch[0][1])
+    print "hear"
+    print close
+    print patch2
+    return patch2
     util.raiseNotDefined()
 
 
