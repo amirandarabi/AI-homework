@@ -238,7 +238,52 @@ def depthFirstSearch(problem):
     # # print close
     # print patch2
     # return patch2
-    # start again
+
+
+    # start again !!
+
+    # initial parameters
+    openlist = []
+    closelist =  []
+    patch = []
+    ss = [problem.getStartState() , "root" , 0]
+    # print ss
+    openlist.append(ss)
+    while len(openlist) is not 0:
+        cs = openlist.pop()
+        #this part produce the patch
+        if cs[1] != "root":
+            lp =patch.pop()
+            # this while remove extra nodes in patch by calculate manhattan Distance 
+            while util.manhattanDistance(lp[0],cs[0]) != 1:
+                lp =patch.pop()
+            patch.append(lp)
+            patch.append(cs)
+        else:
+            patch.append(cs)
+
+        if problem.isGoalState(cs[0]):
+
+            answerpatch = []
+            for p in patch:
+                answerpatch.append(p[1])
+            answerpatch.remove(patch[0][1])
+            print patch
+            return answerpatch
+        else:
+            closelist.append(cs)
+            children = problem.getSuccessors(cs[0])
+            children.reverse()
+            for child in children:
+                flag = False
+                for c in closelist:
+                    if child[0] == c[0]:
+                        flag =True
+                        break
+                if flag:
+                    continue
+                openlist.append(child)
+
     util.raiseNotDefined()
 
 
