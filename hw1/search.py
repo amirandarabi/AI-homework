@@ -111,22 +111,22 @@ def depthFirstSearch(problem):
     while len(openlist) is not 0:
         cs = openlist.pop()
         #this part produce the patch
-        if cs[1] != "root":
-            # lp =patch.pop()
-            # this while remove extra nodes in patch by calculate manhattan Distance
-            # while util.manhattanDistance(lp[0],cs[0]) != 1:
-            #     lp =patch.pop()
-            flag = True
-            while flag:
-                lp =patch.pop()
-                for ch in problem.getSuccessors(lp[0]):
-                    if ch[0] == cs[0]:
-                        flag = False
-                        break
-            patch.append(lp)
-            patch.append(cs)
-        else:
-            patch.append(cs)
+        # if cs[1] != "root":
+        #     # lp =patch.pop()
+        #     # this while remove extra nodes in patch by calculate manhattan Distance
+        #     # while util.manhattanDistance(lp[0],cs[0]) != 1:
+        #     #     lp =patch.pop()
+        #     flag = True
+        #     while flag:
+        #         lp =patch.pop()
+        #         for ch in problem.getSuccessors(lp[0]):
+        #             if ch[0] == cs[0]:
+        #                 flag = False
+        #                 break
+        #     patch.append(lp)
+        #     patch.append(cs)
+        # else:
+        #     patch.append(cs)
 
         if problem.isGoalState(cs[0]):
 
