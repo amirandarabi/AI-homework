@@ -74,8 +74,8 @@ def tinyMazeSearch(problem):
 
 
 def isdead(child ,close):
-    while len(close) is not 0:
-        if child[0] == close.pop()[0]:
+    for c in close:
+        if child[0] == c[0]:
                 return True
     return False
 
@@ -132,50 +132,60 @@ def depthFirstSearch(problem):
     # # print "pacman State is:", problem.isWin(problem.getStartState())
     # return ["West"]
     # initial freng, close lists and the patch of goal
-    open = util.Stack()
-    close = []
-    patch = []
-    # getStartState
-    startState = problem.getStartState()
-    # initial a flage that show we arrive to goal or not
-    flag = False
-    i = 10
-    while flag is False and i is not 0:
-        i -= 1
-        if open.isEmpty() and len(close) is 0:
-            open.push([startState, "root", 0])
-            patch.append([startState, "root", 0])
-        cs = open.pop()
-        lp = patch.pop()
-        if util.manhattanDistance(lp[0], cs[0]) == 1:
-            patch.append(lp)
-            patch.append(cs)
-        else:
-            patch.append(cs)
-        print patch
-        if problem.isGoalState(cs[0]):
-            patch.append(cs[1])
-            flag = True
-        else:
-            close.append(cs)
-            children = problem.getSuccessors(cs[0])
-            for child in children:
-                if util.manhattanDistance(child[0], cs[0]) == 0:
-                    continue
-
-                # if child[1] == "West" and cs[1] == "East":
-                #     continue
-                # if child[1] == "East" and cs[1] == "West":
-                #     continue
-                # if child[1] == "South" and cs[1] == "North":
-                #     continue
-                # if child[1] == "North" and cs[1] == "South":
-                    continue
-                print close
-                if isdead(child, close):
-                    continue
-                print "close", close
-                open.push(child)
+    # open = util.Stack()
+    # close = []
+    # patch = []
+    # # getStartState
+    # startState = problem.getStartState()
+    # # initial a flage that show we arrive to goal or not
+    # flag = False
+    # i = 100
+    # while flag is False and i is not 0:
+    #     i -= 1
+    #     if open.isEmpty() and len(close) is 0:
+    #         open.push([startState, "root", 0])
+    #         patch.append([startState, "root", 0])
+    #     cs = open.pop()
+    #     # print cs[1]
+    #     lp = patch.pop()
+    #     # print lp[1]
+    #     if util.manhattanDistance(lp[0], cs[0]) == 1:
+    #         patch.append(lp)
+    #         patch.append(cs)
+    #     else:
+    #         patch.append(cs)
+    #     # print patch
+    #     if problem.isGoalState(cs[0]):
+    #         # patch.append(cs)
+    #         flag = True
+    #     else:
+    #         close.append(cs)
+    #         print "close1", close
+    #         children = problem.getSuccessors(cs[0])
+    #         print "chidren", children
+    #         children.reverse()
+    #         print "children", children
+    #         for child in children:
+    #             if util.manhattanDistance(child[0], cs[0]) == 2:
+    #                 continue
+    #             # if child[1] == "West" and cs[1] == "East":
+    #             #     continue
+    #             # if child[1] == "East" and cs[1] == "West":
+    #             #     continue
+    #             # if child[1] == "South" and cs[1] == "North":
+    #             #     continue
+    #             # if child[1] == "North" and cs[1] == "South":
+    #             #     continue
+    #             # print close
+    #             if isdead(child, close):
+    #                 print 1
+    #                 continue
+    #             # else:
+    #             #     open.push(child)
+    #
+    #             # print "close", close
+    #             print 2
+    #             open.push(child)
 
 
     # patch = ["South", "South", "West", "West", "West", "West", "South", "South",
@@ -184,17 +194,51 @@ def depthFirstSearch(problem):
     #    "West", "West", "West", "West", "South", "South", "East", "East", "East",
     #    "East", "South", "South", "West", "West", "West","South","South", "South"]
     # def checkfamily()
-    patch2 = []
-    for p in patch:
-        patch2.append(p[1])
-    #     patch.remove(p)
-    #     while p[0][0]:
-    #         pass
-    patch2.remove(patch[0][1])
-    print "hear"
-    print close
-    print patch2
-    return patch2
+    # open.push(startState)
+    # while open.isEmpty() is False:
+    #     cs = open.pop()
+    #     if len(patch) is 0:
+    #         x = []
+    #         x.append(cs)
+    #         patch.append(x)
+    #     lp = patch.pop()
+    #     # print lp[1]
+    #     if util.manhattanDistance(lp[0], cs[0]) == 1:
+    #         patch.append(lp)
+    #         patch.append(cs)
+    #     else:
+    #         patch.append(cs)
+    #     if problem.isGoalState(cs):
+    #         patch2 = []
+    #         for p in patch:
+    #             patch2.append(p[1])
+    #         return patch2
+    #     else:
+    #         close.append(cs)
+    #         children = problem.getSuccessors(cs)
+    #         for child in children:
+    #             flag = False
+    #             for c in close:
+    #                 if c[0] != child[0]:
+    #                     flag = True
+    #             if flag:
+    #                 open.push(child)
+
+
+
+    # patch2 = []
+    # for p in patch:
+    #     patch2.append(p[1])
+    # #     patch.remove(p)
+    # #     while p[0][0]:
+    # #         pass
+    # patch2.remove(patch[0][1])
+    # # patch2.remove('e')
+    # print "hear"
+    # # print close
+    # print patch2
+    # return patch2
+    # start again
     util.raiseNotDefined()
 
 
