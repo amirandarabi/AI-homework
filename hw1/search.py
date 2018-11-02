@@ -184,6 +184,25 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    # Frontier = util.Queue()
+    # Visited = []
+    # Frontier.push( (problem.getStartState(), []) )
+    # #print 'Start',problem.getStartState()
+    # #Visited.append( problem.getStartState() )
+    #
+    # while Frontier.isEmpty() == 0:
+    #     state, actions = Frontier.pop()
+    #
+    #     for next in problem.getSuccessors(state):
+    #         n_state = next[0]
+    #         n_direction = next[1]
+    #         if n_state not in Visited:
+    #             if problem.isGoalState(n_state):
+    #                 #print 'Find Goal'
+    #                 return actions + [n_direction]
+    #             Frontier.push( (n_state, actions + [n_direction]) )
+    #             Visited.append( n_state )
+
     open = util.Queue()
     # open.push(1)
     # open.push(2)
@@ -211,33 +230,41 @@ def breadthFirstSearch(problem):
                     answerpatch.append(cs[1])
                     cs = c
             answerpatch.reverse()
-
-            print answerpatch
-                        # answerpatch.remove(answerpatch[0])
-                        # answerpatch.remove(answerpatch[0])
-            print answerpatch
             return answerpatch
         else:
             closelist.append(cs)
             children = problem.getSuccessors(cs[0])
-            # print children
-            # children.reverse()
+            # print "b", children
+            for ch in children:
+                # print ch
+                if ch[2] == "West" or ch[2] == "South":
+                    children += ch
+                    break
+            children.reverse()
+            # print "a", children
+
             for child in children:
-                print "cycle", child
                 flag = False
                 for c in closelist:
                     if child[0] == c[0]:
-                    # print flag
                         flag =True
                         break
-                # for o in open:
-                #     if child[0] == o[0]:
-                #     # print flag
-                #         flag =True
-                #         break
                 if flag:
                     continue
                 child = [child[0], child[1], child[2], cs[0], cs[1]]
+                # if problem.isGoalState(child[0]):
+                #     answerpatch = []
+                #     while len(patch) is not 0:
+                #         # print cs
+                #         c = patch.pop()
+                #         # print c
+                #         if c[0] == child[3]:
+                #             # print c
+                #             answerpatch.append(child[1])
+                #             cs = c
+                #     answerpatch.reverse()
+                #     print answerpatch
+                #     return answerpatch
                 open.push(child)
     # while len(patch) > 0:
         # print patch
