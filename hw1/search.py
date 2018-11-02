@@ -127,32 +127,37 @@ def depthFirstSearch(problem):
         #     patch.append(cs)
         # else:
         #     patch.append(cs)
-        if cs[1] != "root":
-            flag = True
-            while flag:
-                lp = patch.pop()
-                # print cs[3]
-                # print lp[0][1]
-                # print cs[3]
-                print lp
-                # print len(cs)
-                # print len(lp)
-                if cs[3][0] == lp[0][0] and cs[3][1] == lp[0][1]:
-                    flag = False
-            patch.append(lp)
-            patch.append(cs)
-        else:
-            patch.append(cs)
-
-
+        # if cs[1] != "root":
+        #     flag = True
+        #     while flag:
+        #         lp = patch.pop()
+        #         # print cs[3]
+        #         # print lp[0][1]
+        #         # print cs[3]
+        #         print lp
+        #         # print len(cs)
+        #         # print len(lp)
+        #         if cs[3][0] == lp[0][0] and cs[3][1] == lp[0][1]:
+        #             flag = False
+        #     patch.append(lp)
+        #     patch.append(cs)
+        # else:
+        #     patch.append(cs)
+        patch.append(cs)
         if problem.isGoalState(cs[0]):
 
             answerpatch = []
-            for p in patch:
-                answerpatch.append(p[1])
-            answerpatch.remove(patch[0][1])
+            while len(patch) is not 0:
+                answerpatch.append(cs[4])
+                c = patch.pop()
+                if c[0] == cs[3]:
+                    answerpatch.append(c[4])
+            answerpatch.reverse()
+            #     answerpatch.append(p[1])
+            # answerpatch.remove(patch[0][1])
             # print patch
             return answerpatch
+
         else:
             closelist.append(cs)
             children = problem.getSuccessors(cs[0])
@@ -166,7 +171,7 @@ def depthFirstSearch(problem):
                 if flag:
                     continue
 
-                child = [child[0], child[1], child[2], cs[0]]
+                child = [child[0], child[1], child[2], cs[0][1]]
                 # print child[3]
 
                 openlist.append(child)
