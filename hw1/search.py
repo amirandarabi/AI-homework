@@ -73,11 +73,6 @@ def tinyMazeSearch(problem):
     return  [s, s, w, s, w, w, s, w]
 
 
-def isdead(child ,close):
-    for c in close:
-        if child[0] == c[0]:
-                return True
-    return False
 
 def depthFirstSearch(problem):
     """
@@ -105,7 +100,7 @@ def depthFirstSearch(problem):
     openlist = []
     closelist =  []
     patch = []
-    ss = [problem.getStartState() , "root" , 0]
+    ss = [problem.getStartState() , "root" , 0, problem.getStartState() , "root" , 0]
     # print ss
     openlist.append(ss)
     while len(openlist) is not 0:
@@ -147,15 +142,21 @@ def depthFirstSearch(problem):
         if problem.isGoalState(cs[0]):
 
             answerpatch = []
+            # answerpatch.append(cs[-1])
             while len(patch) is not 0:
-                answerpatch.append(cs[4])
+                # print cs
                 c = patch.pop()
+                # print c
                 if c[0] == cs[3]:
-                    answerpatch.append(c[4])
+                    # print c
+                    answerpatch.append(cs[1])
+                    cs = c
             answerpatch.reverse()
-            #     answerpatch.append(p[1])
-            # answerpatch.remove(patch[0][1])
-            # print patch
+
+            print answerpatch
+            # answerpatch.remove(answerpatch[0])
+            # answerpatch.remove(answerpatch[0])
+            print answerpatch
             return answerpatch
 
         else:
@@ -166,12 +167,13 @@ def depthFirstSearch(problem):
                 flag = False
                 for c in closelist:
                     if child[0] == c[0]:
+                        # print flag
                         flag =True
                         break
                 if flag:
                     continue
 
-                child = [child[0], child[1], child[2], cs[0][1]]
+                child = [child[0], child[1], child[2], cs[0], cs[1]]
                 # print child[3]
 
                 openlist.append(child)
@@ -182,6 +184,88 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+        open = util.Queue()
+        closelist =  []
+        patch = []
+        ss = [problem.getStartState() , "root" , 0, problem.getStartState() , "root" , 0]
+        # print ss
+        open.push(ss)
+        ss = open.pop()
+        print ss
+        while len(openlist) is not 0:
+            cs = openlist.pop()
+            #this part produce the patch
+            # if cs[1] != "root":
+            #     # lp =patch.pop()
+            #     # this while remove extra nodes in patch by calculate manhattan Distance
+            #     # while util.manhattanDistance(lp[0],cs[0]) != 1:
+            #     #     lp =patch.pop()
+            #     flag = True
+            #     while flag:
+            #         lp =patch.pop()
+            #         for ch in problem.getSuccessors(lp[0]):
+            #             if ch[0] == cs[0]:
+            #                 flag = False
+            #                 break
+            #     patch.append(lp)
+            #     patch.append(cs)
+            # else:
+            #     patch.append(cs)
+            # if cs[1] != "root":
+            #     flag = True
+            #     while flag:
+            #         lp = patch.pop()
+            #         # print cs[3]
+            #         # print lp[0][1]
+            #         # print cs[3]
+            #         print lp
+            #         # print len(cs)
+            #         # print len(lp)
+            #         if cs[3][0] == lp[0][0] and cs[3][1] == lp[0][1]:
+            #             flag = False
+            #     patch.append(lp)
+            #     patch.append(cs)
+            # else:
+            #     patch.append(cs)
+            patch.append(cs)
+            if problem.isGoalState(cs[0]):
+
+                answerpatch = []
+                # answerpatch.append(cs[-1])
+                while len(patch) is not 0:
+                    # print cs
+                    c = patch.pop()
+                    # print c
+                    if c[0] == cs[3]:
+                        # print c
+                        answerpatch.append(cs[1])
+                        cs = c
+                answerpatch.reverse()
+
+                print answerpatch
+                # answerpatch.remove(answerpatch[0])
+                # answerpatch.remove(answerpatch[0])
+                print answerpatch
+                return answerpatch
+
+            else:
+                closelist.append(cs)
+                children = problem.getSuccessors(cs[0])
+                # children.reverse()
+                for child in children:
+                    flag = False
+                    for c in closelist:
+                        if child[0] == c[0]:
+                            # print flag
+                            flag =True
+                            break
+                    if flag:
+                        continue
+
+                    child = [child[0], child[1], child[2], cs[0], cs[1]]
+                    # print child[3]
+
+                    openlist.push(child)
     # return []
     util.raiseNotDefined()
 
