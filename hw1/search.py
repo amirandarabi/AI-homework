@@ -275,6 +275,11 @@ def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     # return []
+    open = util.PriorityQueue()
+    closelist = []
+    patch = []
+    ss = [problem.getStartState() , "root" , 0, problem.getStartState() , "root" , 0]
+    open.push(ss)
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
