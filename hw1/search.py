@@ -278,6 +278,14 @@ def uniformCostSearch(problem):
     open.push( (problem.getStartState(), []), 0 )
     close.append( problem.getStartState() )
 
+    while Frontier.isEmpty() == 0:
+        cs, patch = open.pop()
+
+        if problem.isGoalState(state):
+            return patch
+
+        if cs not in Visited:
+            Visited.append( cs )
 
 
 
