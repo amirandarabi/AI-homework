@@ -306,6 +306,17 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+        def _update(Frontier, item, priority):
+            for index, (p, c, i) in enumerate(Frontier.heap):
+                if i[0] == item[0]:
+                    if p <= priority:
+                        break
+                    del Frontier.heap[index]
+                    Frontier.heap.append((priority, c, item))
+
+                    break
+            else:
+                Frontier.push(item, priority)
     # return []
     util.raiseNotDefined()
 
