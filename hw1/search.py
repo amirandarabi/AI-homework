@@ -327,9 +327,15 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         #print state
         if problem.isGoalState(cs):
             return patch
-
         if cs not in close:
             close.append( cs )
+        for next in problem.getSuccessors(cs):
+            ns = next[0]
+            na = next[1]
+            if ns not in close:
+                _update( open, (ns, patch + [na]), \
+                    problem.getCostOfActions(patch+[na])+heuristic(ns, problem) )
+
     # return []
     util.raiseNotDefined()
 
