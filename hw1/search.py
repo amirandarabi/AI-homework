@@ -268,7 +268,7 @@ def uniformCostSearch(problem):
                     break
                 del Frontier.heap[index]
                 Frontier.heap.append((priority, c, item))
-                heapq.heapify(Frontier.heap)
+
                 break
         else:
             Frontier.push(item, priority)
@@ -278,15 +278,20 @@ def uniformCostSearch(problem):
     open.push( (problem.getStartState(), []), 0 )
     close.append( problem.getStartState() )
 
-    while Frontier.isEmpty() == 0:
+    while open.isEmpty() == 0:
         cs, patch = open.pop()
 
-        if problem.isGoalState(state):
+        if problem.isGoalState(cs):
             return patch
 
-        if cs not in Visited:
-            Visited.append( cs )
+        if cs not in close:
+            close.append( cs )
 
+        for next in problem.getSuccessors(cs):
+            ns = next[0]
+            na = next[1]
+            if ns not in close:
+                _update( open, (ns, patch + [na]), problem.getCostOfActions(patch+[na]) )
 
 
     util.raiseNotDefined()
