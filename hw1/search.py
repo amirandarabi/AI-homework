@@ -97,7 +97,7 @@ def depthFirstSearch(problem):
     # start again !!
 
     # initial parameters
-    openlist = []
+    list = []
     closelist =  []
     patch = []
     ss = [problem.getStartState() , "root" , 0, problem.getStartState() , "root" , 0]
@@ -317,6 +317,19 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                     break
             else:
                 Frontier.push(item, priority)
+
+    open = util.PriorityQueue()
+    close = []
+    open.push( (problem.getStartState(), []), heuristic(problem.getStartState(), problem) )
+    close.append( problem.getStartState() )
+    while open.isEmpty() == 0:
+        cs, patch = open.pop()
+        #print state
+        if problem.isGoalState(cs):
+            return patch
+
+        if cs not in close:
+            close.append( cs )
     # return []
     util.raiseNotDefined()
 
