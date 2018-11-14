@@ -262,7 +262,7 @@ def uniformCostSearch(problem):
     # print util.manhattanDistance(problem.getStartState(), (1, 1))
     # return []
     def _update(Frontier, item, priority):
-        for index, (p, c, i) in enumerate(Frontier.heap):
+        for index, (p, c, i) in enumerate(open.heap):
             if i[0] == item[0]:
                 if p <= priority:
                     break
@@ -306,29 +306,36 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-        def _update(Frontier, item, priority):
-            for index, (p, c, i) in enumerate(Frontier.heap):
-                if i[0] == item[0]:
-                    if p <= priority:
-                        break
-                    del Frontier.heap[index]
-                    Frontier.heap.append((priority, c, item))
+    # python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic --frameTime 0
+    # print heuristic(problem.getStartState(), problem) 34
 
+    def _update(open, item, priority):
+        for index, (p, c, i) in enumerate(open.heap):
+            if i[0] == item[0]:
+                if p <= priority:
                     break
-            else:
-                Frontier.push(item, priority)
+                del open.heap[index]
+                open.heap.append((priority, c, item))
+                heapq.heapify(open.heap)
+                break
+        else:
+            open.push(item, priority)
 
     open = util.PriorityQueue()
     close = []
     open.push( (problem.getStartState(), []), heuristic(problem.getStartState(), problem) )
     close.append( problem.getStartState() )
+
     while open.isEmpty() == 0:
         cs, patch = open.pop()
         #print state
         if problem.isGoalState(cs):
+            #print 'Find Goal'
             return patch
+
         if cs not in close:
             close.append( cs )
+
         for next in problem.getSuccessors(cs):
             ns = next[0]
             na = next[1]
@@ -336,7 +343,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 _update( open, (ns, patch + [na]), \
                     problem.getCostOfActions(patch+[na])+heuristic(ns, problem) )
 
-    # return []
     util.raiseNotDefined()
 
 
