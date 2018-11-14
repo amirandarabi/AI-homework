@@ -1,5 +1,3 @@
-
-
 # search.py
 # ---------
 # Licensing Information:  You are free to use or extend these projects for
@@ -103,7 +101,158 @@ def depthFirstSearch(problem):
     closelist =  []
     patch = []
     ss = [problem.getStartState() , "root" , 0, problem.getStartState() , "root" , 0]
+    # print ss
+    openlist.append(ss)
+    while len(openlist) is not 0:
+        cs = openlist.pop()
+        #this part produce the patch
+        # if cs[1] != "root":
+        #     # lp =patch.pop()
+        #     # this while remove extra nodes in patch by calculate manhattan Distance
+        #     # while util.manhattanDistance(lp[0],cs[0]) != 1:
+        #     #     lp =patch.pop()
+        #     flag = True
+        #     while flag:
+        #         lp =patch.pop()
+        #         for ch in problem.getSuccessors(lp[0]):
+        #             if ch[0] == cs[0]:
+        #                 flag = False
+        #                 break
+        #     patch.append(lp)
+        #     patch.append(cs)
+        # else:
+        #     patch.append(cs)
+        # if cs[1] != "root":
+        #     flag = True
+        #     while flag:
+        #         lp = patch.pop()
+        #         # print cs[3]
+        #         # print lp[0][1]
+        #         # print cs[3]
+        #         print lp
+        #         # print len(cs)
+        #         # print len(lp)
+        #         if cs[3][0] == lp[0][0] and cs[3][1] == lp[0][1]:
+        #             flag = False
+        #     patch.append(lp)
+        #     patch.append(cs)
+        # else:
+        #     patch.append(cs)
+        patch.append(cs)
+        if problem.isGoalState(cs[0]):
 
+            answerpatch = []
+            # answerpatch.append(cs[-1])
+            while len(patch) is not 0:
+                # print cs
+                c = patch.pop()
+                # print c
+                if c[0] == cs[3]:
+                    # print c
+                    answerpatch.append(cs[1])
+                    cs = c
+            answerpatch.reverse()
+
+            print answerpatch
+            # answerpatch.remove(answerpatch[0])
+            # answerpatch.remove(answerpatch[0])
+            print answerpatch
+            return answerpatch
+
+        else:
+            closelist.append(cs)
+            children = problem.getSuccessors(cs[0])
+            # children.reverse()
+            for child in children:
+                flag = False
+                for c in closelist:
+                    if child[0] == c[0]:
+                        # print flag
+                        flag =True
+                        break
+                if flag:
+                    continue
+
+                child = [child[0], child[1], child[2], cs[0], cs[1]]
+                # print child[3]
+
+                openlist.append(child)
+
+    util.raiseNotDefined()
+
+
+def breadthFirstSearch(problem):
+    """Search the shallowest nodes in the search tree first."""
+    "*** YOUR CODE HERE ***"
+    # Frontier = util.Queue()
+    # Visited = []
+    # Frontier.push( (problem.getStartState(), []) )
+    # #print 'Start',problem.getStartState()
+    # #Visited.append( problem.getStartState() )
+    #
+    # while Frontier.isEmpty() == 0:
+    #     state, actions = Frontier.pop()
+    #
+    #     for next in problem.getSuccessors(state):
+    #         n_state = next[0]
+    #         n_direction = next[1]
+    #         if n_state not in Visited:
+    #             if problem.isGoalState(n_state):
+    #                 #print 'Find Goal'
+    #                 return actions + [n_direction]
+    #             Frontier.push( (n_state, actions + [n_direction]) )
+    #             Visited.append( n_state )
+
+    open = util.Queue()
+    # open.push(1)
+    # open.push(2)
+    # open.push(3)
+    # while open.isEmpty() is False:
+    #     print open.pop()
+    closelist = []
+    patch = []
+    ss = [problem.getStartState() , "root" , 0, problem.getStartState() , "root" , 0]
+    open.push(ss)
+    i = 19
+    while open.isEmpty() is False:
+        cs = open.pop()
+        i -= 1
+        patch.append(cs)
+        if problem.isGoalState(cs[0]):
+            answerpatch = []
+            # answerpatch.append(cs[-1])
+            while len(patch) is not 0:
+                # print cs
+                c = patch.pop()
+                # print c
+                if c[0] == cs[3]:
+                    # print c
+                    answerpatch.append(cs[1])
+                    cs = c
+            answerpatch.reverse()
+            return answerpatch
+        else:
+            closelist.append(cs)
+            children = problem.getSuccessors(cs[0])
+            # print "b", children
+            for ch in children:
+                # print ch
+                if ch[2] == "West" or ch[2] == "South":
+                    children += ch
+                    break
+            children.reverse()
+            # print "a", children
+
+            for child in children:
+                flag = False
+                for c in closelist:
+                    if child[0] == c[0]:
+                        flag =True
+                        break
+                if flag:
+                    continue
+                child = [child[0], child[1], child[2], cs[0], cs[1]]
+                open.push(child)
 
     util.raiseNotDefined()
 
@@ -112,95 +261,19 @@ def uniformCostSearch(problem):
     "*** YOUR CODE HERE ***"
     # print util.manhattanDistance(problem.getStartState(), (1, 1))
     # return []
-    open = util.PriorityQueue()
-    close = []
-    patch = []
-    ss = problem.getStartState()
-    open.push(ss, 0)
-    while open.isEmpty() is not True:
-        c_state, c_action ,c_gn= open.pop()
-        if problem.isGoalState(c_state):
-            patch.append(c_action)
-            return patch
+    def _update(Frontier, item, priority):
+        for index, (p, c, i) in enumerate(Frontier.heap):
+            if i[0] == item[0]:
+                if p <= priority:
+                    break
+                del Frontier.heap[index]
+                Frontier.heap.append((priority, c, item))
+                heapq.heapify(Frontier.heap)
+                break
         else:
-            close.append(c_state)
-
-    # print problem.getCostOfActions(patch)
-    # while True:
-    #     cs = open.pop()
-    #     patch.append(cs)
-    #     if problem.isGoalState(cs[0]):
-    #         answerpatch = []
-    #         # answerpatch.append(cs[-1])
-    #         while len(patch) is not 0:
-    #             # print cs
-    #             c = patch.pop()
-    #             # print c
-    #             if c[0] == cs[3]:
-    #                 # print c
-    #                 answerpatch.append(cs[1])
-    #                 cs = c
-    #         answerpatch.reverse()
-    #         return answerpatch
-    #     else:
-    #         close.append(cs)
-    #         children = problem.getSuccessors(cs[0])
-    #         print children
-    #         for child in children:
-    #             for c in close:
-    #                 if child != c:
-    #                     child = [child[0], child[1], child[2], cs[0], cs[1], cs[2]+child[2]]
-    #                     # open.update(child, child[5])
-    #                     open.push(child, child[5])
+            Frontier.push(item, priority)
 
 
-
-
-    # print open.pop()
-    # print open.pop()
-
-
-    # util.raiseNotDefined()
-    # while open.isEmpty() is False:
-    #     cs = open.pop()
-    #     # i -= 1
-    #     patch.append(cs)
-    #     if problem.isGoalState(cs[0]):
-    #         answerpatch = []
-    #         # answerpatch.append(cs[-1])
-    #         while len(patch) is not 0:
-    #             # print cs
-    #             c = patch.pop()
-    #             # print c
-    #             if c[0] == cs[3]:
-    #                 # print c
-    #                 answerpatch.append(cs[1])
-    #                 cs = c
-    #         answerpatch.reverse()
-    #         return answerpatch
-    #     else:
-    #         closelist.append(cs)
-    #         children = problem.getSuccessors(cs[0])
-    #         # print "b", children
-    #         # for ch in children:
-    #         #     # print ch
-    #         #     if ch[2] == "West" or ch[2] == "South":
-    #         #         children += ch
-    #         #         break
-    #         # children.reverse()
-    #         # print "a", children
-    #
-    #         for child in children:
-    #             flag = False
-    #             for c in closelist:
-    #                 if child[0] == c[0]:
-    #                     flag =True
-    #                     break
-    #             if flag:
-    #                 continue
-    #             child = [child[0], child[1], child[2], cs[0], cs[1], cs[5]+child[2]]
-    #             print child
-    #             open.update(child, child[5])
 
 
     util.raiseNotDefined()
