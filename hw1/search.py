@@ -273,6 +273,11 @@ def uniformCostSearch(problem):
         else:
             Frontier.push(item, priority)
 
+    open = util.PriorityQueue()
+    close = []
+    open.push( (problem.getStartState(), []), 0 )
+    close.append( problem.getStartState() )
+
 
 
 
